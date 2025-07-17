@@ -1,15 +1,53 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.lukewarlow.intellijwebidlplugin</id>
-    <name>intellij-webidl-plugin</name>
-    <vendor>lukewarlow</vendor>
+    <id>dev.lukewarlow.intellijwebidlplugin</id>
+    <name>WebIDL</name>
+    <vendor>Luke Warlow</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.lukewarlow.intellijwebidlplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.lukewarlow.intellijwebidlplugin.startup.MyProjectActivity" />
+        <fileType
+            name="WebIDL File"
+            implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLFileType"
+            fieldName="INSTANCE"
+            language="WebIDL"
+            extensions="webidl;idl"/>
+
+        <lang.syntaxHighlighterFactory
+                language="WebIDL"
+                implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLSyntaxHighlighterFactory"/>
+
+        <lang.parserDefinition language="WebIDL"
+                               implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLParserDefinition"/>
+
+        <lang.foldingBuilder language="WebIDL"
+                             implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLFoldingBuilder"/>
+
+        <lang.findUsagesProvider
+                language="WebIDL"
+                implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLFindUsagesProvider"/>
+
+        <lang.commenter language="WebIDL" implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLCommenter"/>
+
+<!--        <lang.formatter language="WebIDL" implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLFormattingModelBuilder"/>-->
+
+        <lang.quoteHandler language="WebIDL"
+                            implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLQuoteHandler"/>
+
+        <lang.braceMatcher language="WebIDL"
+                            implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLPairedBraceMatcher"/>
+
+        <completion.contributor language="WebIDL"
+                                implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLCompletionContributor"/>
+
+        <colorSettingsPage implementation="dev.lukewarlow.intellijwebidlplugin.WebIDLColorSettingsPage"/>
+
+<!--        <annotator language="WebIDL" implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLAnnotator" />-->
+
+        <codeInsight.lineMarkerProvider language="WebIDL" implementationClass="dev.lukewarlow.intellijwebidlplugin.WebIDLLineMarkerProvider"/>
+
+        <platform.backend.documentation.targetProvider implementation="dev.lukewarlow.intellijwebidlplugin.WebIDLDocumentationTargetProvider"/>
     </extensions>
+
 </idea-plugin>

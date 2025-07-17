@@ -1,4 +1,4 @@
-# intellij-webidl-plugin
+# Web IDL Intellij Plugin
 
 ![Build](https://github.com/lukewarlow/intellij-webidl-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
@@ -17,11 +17,19 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+Adds support for WebIDL in IntelliJ-based IDEs, enabling editing and exploration of `.webidl` and `.idl` files used to define
+web platform APIs.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+Features:
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
+- Support for both `.webidl` and `.idl` file types
+- Syntax highlighting with configurable colour settings
+- Block folding
+- Basic "Find Usages" support
+- Brace and quote matching
+- Keyword completion
+- Gutter icons for navigating inheritance hierarchy
+
 <!-- Plugin description end -->
 
 ## Installation
