@@ -1,14 +1,15 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import com.strumenta.antlrkotlin.gradle.AntlrKotlinTask
 
 plugins {
-    id("java") // Java support
     alias(libs.plugins.kotlin) // Kotlin support
     alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    id("com.strumenta.antlr-kotlin") version "1.0.3"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -33,6 +34,7 @@ repositories {
 dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.opentest4j)
+    implementation("com.strumenta:antlr-kotlin-runtime:1.0.3")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
@@ -153,4 +155,34 @@ intellijPlatformTesting {
             }
         }
     }
+}
+val generatedRoot = layout.buildDirectory.dir("gen").get().asFile
+
+sourceSets {
+    val main by getting {
+        kotlin.srcDir(generatedRoot)
+    }
+}
+
+val cleanGeneratedBuildSource = tasks.register<Delete>("cleanGeneratedBuildSource") {
+    delete(generatedRoot)
+}
+
+val generateGrammarSourceForWebIDL = tasks.register<AntlrKotlinTask>("generateGrammarSourceForWebIDL") {
+    dependsOn(cleanGeneratedBuildSource)
+    source = fileTree(layout.projectDirectory.dir("src/main/antlr")) {
+        include("WebIDL.g4")
+    }
+
+    // We want the generated source files to have this package name
+    val pkgName = "webidl.generated"
+    packageName = pkgName
+
+    arguments = listOf("-visitor")
+
+    outputDirectory = generatedRoot
+}
+
+tasks.named("compileKotlin") {
+    dependsOn(generateGrammarSourceForWebIDL)
 }
