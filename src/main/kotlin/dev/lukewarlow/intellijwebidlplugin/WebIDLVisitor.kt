@@ -313,6 +313,7 @@ data class IDLExtendedAttribute(
         data class Integer(val value: Int) : Kind()
         data class IdentList(val values: List<String>) : Kind()
         data class IntegerList(val values: List<Int>) : Kind()
+        data class StringList(val values: List<String>) : Kind()
         object Wildcard : Kind()
     }
 
@@ -1129,6 +1130,12 @@ class WebIDLVisitor() : WebIDLBaseVisitor<IDLNode?>() {
                 val name = ctx.extendedAttributeWildcard()!!.Identifier().toIDLIdentifier()
                 IDLExtendedAttribute(name, IDLExtendedAttribute.Kind.Wildcard)
             }
+            ctx.extendedAttributeStringList() != null -> {
+                val attr = ctx.extendedAttributeStringList()!!
+                val name = attr.Identifier().toIDLIdentifier()
+                val values = collectStrings(attr.stringList())
+                IDLExtendedAttribute(name, IDLExtendedAttribute.Kind.StringList(values))
+            }
             else -> throw Exception("visitExtendedAttribute: ${ctx.text}")
         }.apply { sourceRange = sourceRangeOf(ctx) }
     }
@@ -1160,6 +1167,21 @@ class WebIDLVisitor() : WebIDLBaseVisitor<IDLNode?>() {
         val result = mutableListOf<Int>()
         result += ctx.Integer().text.toInt()
         result += collectIntegers(ctx.integers())
+        return result
+    }
+
+    private fun collectStrings(ctx: WebIDLParser.StringListContext): List<String> {
+        val result = mutableListOf<String>()
+        result += ctx.String().text
+        result += collectStrings(ctx.strings())
+        return result
+    }
+
+    private fun collectStrings(ctx: WebIDLParser.StringsContext?): List<String> {
+        if (ctx == null) return emptyList()
+        val result = mutableListOf<String>()
+        result += ctx.String().text
+        result += collectStrings(ctx.strings())
         return result
     }
 }

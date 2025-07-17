@@ -608,6 +608,7 @@ extendedAttribute
     | extendedAttributeIdentList
     | extendedAttributeIntegerList
     | extendedAttributeWildcard
+    | extendedAttributeStringList
     ;
 
 
@@ -651,6 +652,11 @@ extendedAttributeNamedArgList
     : Identifier '=' Identifier '(' argumentList? ')'
     ;
 
+// Non-standard but used by Chromium
+extendedAttributeStringList
+    : Identifier '=' '(' stringList ')'
+    ;
+
 identifierList
     : Identifier identifiers?
     ;
@@ -665,6 +671,14 @@ integerList
 
 integers
     : ',' Integer integers?
+    ;
+
+stringList
+    : String strings?
+    ;
+
+strings
+    : ',' String strings?
     ;
 
 // Permissive syntax allowed by main spec
