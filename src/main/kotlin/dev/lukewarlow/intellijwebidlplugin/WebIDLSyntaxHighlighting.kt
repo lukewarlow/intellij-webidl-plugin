@@ -57,7 +57,7 @@ class WebIDLSyntaxHighlighter : SyntaxHighlighterBase() {
         WebIDLElementTypes.tokenTypeMap[WebIDLLexer.Tokens.Maplike],
         WebIDLElementTypes.tokenTypeMap[WebIDLLexer.Tokens.Setlike],
         WebIDLElementTypes.tokenTypeMap[WebIDLLexer.Tokens.Iterable],
-        WebIDLElementTypes.tokenTypeMap[WebIDLLexer.Tokens.Async],
+        WebIDLElementTypes.tokenTypeMap[WebIDLLexer.Tokens.AsyncIterable],
     ).filterNotNull().toSet()
 
     val typeTokenTypes: Set<IElementType> = setOf(

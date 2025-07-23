@@ -30,7 +30,7 @@ Sequence: 'sequence';
 AsyncSequence: 'async_sequence';
 
 Iterable: 'iterable';
-Async: 'async';
+AsyncIterable: 'async_iterable';
 
 Any: 'any';
 Undefined: 'undefined';
@@ -120,8 +120,7 @@ definition
     ;
 
 argumentNameKeyword
-    : Async
-    | Attribute
+    : Attribute
     | Callback
     | Const
     | Constructor
@@ -300,8 +299,7 @@ attributeName
     ;
 
 attributeNameKeyword
-    : 'async'
-    | Required
+    : Required
     ;
 
 defaultValue
@@ -398,7 +396,7 @@ optionalType
     ;
 
 asyncIterable
-    : Async Iterable '<' typeWithExtendedAttributes optionalType? '>' optionalArgumentList? Semicolon
+    : AsyncIterable '<' typeWithExtendedAttributes optionalType? '>' optionalArgumentList? Semicolon
     ;
 
 optionalArgumentList

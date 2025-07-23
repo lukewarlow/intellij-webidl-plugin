@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+- Drop `async` keyword
+- Swap `async iterable` for `async_iterable`
+
 ## [0.0.2] - 2025-07-17
 
 ### Added
